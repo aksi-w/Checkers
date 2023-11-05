@@ -16,23 +16,13 @@ public class Piece {
         return type;
     }
 
-    public void setType(PieceType type) {
-        this.type = type;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public int getCol() {
-        return col;
-    }
-
-    public void setCol(int col) {
-        this.col = col;
+    public String getDisplaySymbol() {
+        if (type == PieceType.BLACK) {
+            return "B";
+        } else if (type == PieceType.WHITE) {
+            return "W";
+        } else {
+            return " ";
+        }
     }
 }
