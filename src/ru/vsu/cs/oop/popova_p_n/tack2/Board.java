@@ -31,7 +31,7 @@ public class Board {
     public void displayBoard() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                System.out.print(board[i][j].getDisplaySymbol() + " ");
+                System.out.print(board[i][j].toString() + " ");
             }
             System.out.println();
         }
@@ -43,17 +43,17 @@ public class Board {
         Piece endPiece = board[endI][endJ];
 
         if (startPiece.getType() == PieceType.EMPTY) {
-            System.out.println("Ход соответвует правилам игры");
+            System.out.println("сделать ход с пустой клетки нельзя");
             return;
         }
 
         if (endPiece.getType() != PieceType.EMPTY) {
-            System.out.println("Конечная клетка не пуста");
+            System.out.println("сделать ход на занятую клетку нельзя");
             return;
         }
 
         board[endI][endJ] = startPiece;
-        board[startI][startJ] = new Piece(PieceType.EMPTY, startI, startJ);
+        board[startI][startJ] = new Piece(PieceType.EMPTY, startI, startJ); // перемещение фигуры
     }
 
 

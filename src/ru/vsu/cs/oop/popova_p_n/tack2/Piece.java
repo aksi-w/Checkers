@@ -15,14 +15,8 @@ public class Piece {
     public PieceType getType() {
         return type;
     }
-
-    public String getDisplaySymbol() {
-        if (type == PieceType.BLACK) {
-            return "B";
-        } else if (type == PieceType.WHITE) {
-            return "W";
-        } else {
-            return " ";
-        }
+    @Override
+    public String toString() {
+        return type.getLabel();
     }
 }
