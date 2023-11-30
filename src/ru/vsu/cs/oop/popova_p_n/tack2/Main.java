@@ -5,6 +5,7 @@ public class Main {
         Board board = new Board();
 
         System.out.println("Начальное состояние доски:");
-        board.displayBoard();
+        CheckersGame game = new CheckersGame(board);
+        game.startGame();
     }
 }
