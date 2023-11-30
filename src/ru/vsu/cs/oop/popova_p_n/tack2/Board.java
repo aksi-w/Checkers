@@ -37,23 +37,44 @@ public class Board {
         }
     }
 
-
-    public void makeMove(int startI, int startJ, int endI, int endJ) {
+    public boolean isValidMove(int startI, int startJ, int endI, int endJ) {
         Piece startPiece = board[startI][startJ];
         Piece endPiece = board[endI][endJ];
 
         if (startPiece.getType() == PieceType.EMPTY) {
-            System.out.println("сделать ход с пустой клетки нельзя");
-            return;
+            throw new IllegalArgumentException("Нельзя совершать ход с пустой клетки");
         }
 
         if (endPiece.getType() != PieceType.EMPTY) {
-            System.out.println("сделать ход на занятую клетку нельзя");
-            return;
+            throw new IllegalArgumentException("Нельзя совершать ход на занятую клетку");
         }
 
+        return true;
+    }
+
+    public void makeMove(int startI, int startJ, int endI, int endJ) {
+        if (!isValidMove(startI, startJ, endI, endJ)) {
+            return;
+        }
+        Piece startPiece = board[startI][startJ];
         board[endI][endJ] = startPiece;
-        board[startI][startJ] = new Piece(PieceType.EMPTY, startI, startJ); // перемещение фигуры
+        startPiece.updatePosition(endI, endJ);
+        board[startI][startJ] = new Piece(PieceType.EMPTY, startI, startJ);
+    }
+    public boolean isGameOver() {
+        int blackCount = 0;
+        int whiteCount = 0;
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (board[i][j].getType() == PieceType.BLACK) {
+                    blackCount++;
+                } else if (board[i][j].getType() == PieceType.WHITE) {
+                    whiteCount++;
+                }
+            }
+        }
+        return blackCount == 0 || whiteCount == 0;
     }
 
 
