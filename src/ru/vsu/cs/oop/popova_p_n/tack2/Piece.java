@@ -15,6 +15,12 @@ public class Piece {
     public PieceType getType() {
         return type;
     }
+
+    public void updatePosition(int newRow, int newCol) {
+        this.row = newRow;
+        this.col = newCol;
+    }
+
     @Override
     public String toString() {
         return type.getLabel();
