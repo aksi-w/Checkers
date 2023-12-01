@@ -4,6 +4,7 @@ public class Board {
     private final Piece[][] board;
     static final int rows = 8;
     static final int cols = 8;
+    private boolean isWhite = true;
 
     public Board() {
         board = new Piece[rows][cols];
@@ -16,7 +17,7 @@ public class Board {
                 if ((i + j) % 2 == 0) {
                     if (i < 3) {
                         board[i][j] = new Piece(PieceType.BLACK, i, j);
-                    } else if (i > cols-4) {
+                    } else if (i > cols - 4) {
                         board[i][j] = new Piece(PieceType.WHITE, i, j);
                     } else {
                         board[i][j] = new Piece(PieceType.EMPTY, i, j);
@@ -38,45 +39,54 @@ public class Board {
     }
 
     public boolean isValidMove(int startI, int startJ, int endI, int endJ) {
+        if (!isValidIndex(startI, startJ) || !isValidIndex(endI, endJ)) {
+            return false;
+        }
+
         Piece startPiece = board[startI][startJ];
         Piece endPiece = board[endI][endJ];
-
         if (startPiece.getType() == PieceType.EMPTY) {
-            throw new IllegalArgumentException("Нельзя совершать ход с пустой клетки");
+            return false;
         }
 
         if (endPiece.getType() != PieceType.EMPTY) {
-            throw new IllegalArgumentException("Нельзя совершать ход на занятую клетку");
+            return false;
         }
 
         int rowChange = endI - startI;
         int colChange = Math.abs(endJ - startJ);
 
-        if (startPiece.getType() == PieceType.WHITE && rowChange == 1 && colChange == 1) {
-            return true;
-        } else if (startPiece.getType() == PieceType.BLACK && rowChange == -1 && colChange == 1) {
-            return true;
+        if (Math.abs(rowChange) != 1 || colChange != 1) {
+            return false;
+        }
+
+        if ((isWhite && startPiece.getType() != PieceType.WHITE) ||
+                (!isWhite && startPiece.getType() != PieceType.BLACK)) {
+            return false;
         }
 
         if (Math.abs(rowChange) == 2 && colChange == 2) {
             int killedI = (startI + endI) / 2;
             int killedJ = (startJ + endJ) / 2;
 
-            Piece killedPiece = board[killedI][killedJ];
-
-            if (startPiece.getType() == PieceType.WHITE && killedPiece.getType() == PieceType.BLACK) {
-                return true;
-            } else if (startPiece.getType() == PieceType.BLACK && killedPiece.getType() == PieceType.WHITE) {
-                return true;
+            if (isValidIndex(killedI, killedJ)) {
+                Piece killedPiece = board[killedI][killedJ];
+                return startPiece.getType() != killedPiece.getType() && killedPiece.getType() != PieceType.EMPTY;
+            } else {
+                return false;
             }
         }
 
         return true;
     }
+
+    private boolean isValidIndex(int i, int j) {
+        return i >= 0 && i < board.length && j >= 0 && j < board[0].length;
+    }
+
     public void removePiece(int row, int col) {
         board[row][col] = new Piece(PieceType.EMPTY, row, col);
     }
-
 
     public void makeMove(int startI, int startJ, int endI, int endJ) {
         if (!isValidMove(startI, startJ, endI, endJ)) {
@@ -86,23 +96,22 @@ public class Board {
         board[endI][endJ] = startPiece;
         startPiece.updatePosition(endI, endJ);
         board[startI][startJ] = new Piece(PieceType.EMPTY, startI, startJ);
+        isWhite = !isWhite;
     }
 
     public boolean isGameOver() {
-        int blackCount = 0;
-        int whiteCount = 0;
+        int blackCnt = 0;
+        int whiteCnt = 0;
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (board[i][j].getType() == PieceType.BLACK) {
-                    blackCount++;
+                    blackCnt++;
                 } else if (board[i][j].getType() == PieceType.WHITE) {
-                    whiteCount++;
+                    whiteCnt++;
                 }
             }
         }
-        return blackCount == 0 || whiteCount == 0;
+        return blackCnt == 0 || whiteCnt == 0;
     }
-
-
 }

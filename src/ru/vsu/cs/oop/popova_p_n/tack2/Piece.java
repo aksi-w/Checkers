@@ -16,6 +16,8 @@ public class Piece {
         return type;
     }
 
+
+
     public void updatePosition(int newRow, int newCol) {
         this.row = newRow;
         this.col = newCol;

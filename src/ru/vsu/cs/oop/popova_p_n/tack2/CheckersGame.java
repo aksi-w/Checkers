@@ -8,9 +8,8 @@ public class CheckersGame {
     public CheckersGame(Board board) {
         this.board = board;
     }
-
     public void startGame() {
-        boolean isWhiteTurn = true; // Первый ход за белыми шашками
+        boolean isWhite = true;
         Scanner scanner = new Scanner(System.in);
 
         while (!board.isGameOver()) {
@@ -18,7 +17,7 @@ public class CheckersGame {
 
             int startI, startJ, endI, endJ;
 
-            if (isWhiteTurn) {
+            if (isWhite) {
                 System.out.println("Ход белых шашек:");
             } else {
                 System.out.println("Ход черных шашек:");
@@ -32,16 +31,13 @@ public class CheckersGame {
             endI = scanner.nextInt();
             endJ = scanner.nextInt();
 
-            // Проверка валидности хода
             if (board.isValidMove(startI, startJ, endI, endJ)) {
-                // Выполнение хода
                 board.makeMove(startI, startJ, endI, endJ);
 
                 if (Math.abs(endI - startI) == 2) {
                     int killedI = (startI + endI) / 2;
                     int killedJ = (startJ + endJ) / 2;
 
-                    System.out.println("Убито");
 
                     board.removePiece(killedI, killedJ);
                 }
@@ -50,7 +46,7 @@ public class CheckersGame {
                 continue;
             }
 
-            isWhiteTurn = !isWhiteTurn; // Переключение хода между белыми и черными
+            isWhite = !isWhite;
         }
 
         board.displayBoard();
