@@ -54,9 +54,9 @@ public class Board {
         }
 
         int rowChange = endI - startI;
-        int colChange = Math.abs(endJ - startJ);
+        int colChange = endJ - startJ;
 
-        if (Math.abs(rowChange) != 1 || colChange != 1) {
+        if (Math.abs(rowChange) != 1 || Math.abs(colChange) != 1) {
             return false;
         }
 
@@ -65,12 +65,23 @@ public class Board {
             return false;
         }
 
-        if (Math.abs(rowChange) == 2 && colChange == 2) {
+        if (Math.abs(rowChange) == 2 && Math.abs(colChange) == 2) {
             int killedI = (startI + endI) / 2;
             int killedJ = (startJ + endJ) / 2;
 
             if (isValidIndex(killedI, killedJ)) {
                 Piece killedPiece = board[killedI][killedJ];
+                return startPiece.getType() != killedPiece.getType() && killedPiece.getType() != PieceType.EMPTY;
+            } else {
+                return false;
+            }
+        }
+
+        if (Math.abs(rowChange) == 2 && Math.abs(colChange) == 0) {
+            int killedI = (startI + endI) / 2;
+
+            if (isValidIndex(killedI, startJ)) {
+                Piece killedPiece = board[killedI][startJ];
                 return startPiece.getType() != killedPiece.getType() && killedPiece.getType() != PieceType.EMPTY;
             } else {
                 return false;
