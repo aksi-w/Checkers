@@ -56,14 +56,6 @@ public class Board {
         int rowChange = endI - startI;
         int colChange = endJ - startJ;
 
-        if (Math.abs(rowChange) != 1 || Math.abs(colChange) != 1) {
-            return false;
-        }
-
-        if ((isWhite && startPiece.getType() != PieceType.WHITE) ||
-                (!isWhite && startPiece.getType() != PieceType.BLACK)) {
-            return false;
-        }
 
         if (Math.abs(rowChange) == 2 && Math.abs(colChange) == 2) {
             int killedI = (startI + endI) / 2;
@@ -79,7 +71,6 @@ public class Board {
 
         if (Math.abs(rowChange) == 2 && Math.abs(colChange) == 0) {
             int killedI = (startI + endI) / 2;
-
             if (isValidIndex(killedI, startJ)) {
                 Piece killedPiece = board[killedI][startJ];
                 return startPiece.getType() != killedPiece.getType() && killedPiece.getType() != PieceType.EMPTY;
@@ -88,8 +79,18 @@ public class Board {
             }
         }
 
+        if ((isWhite && startPiece.getType() != PieceType.WHITE) ||
+                (!isWhite && startPiece.getType() != PieceType.BLACK)) {
+            return false;
+        }
+
+        if (Math.abs(rowChange) != 1 || Math.abs(colChange) != 1) {
+            return false;
+        }
+
         return true;
     }
+
 
     private boolean isValidIndex(int i, int j) {
         return i >= 0 && i < board.length && j >= 0 && j < board[0].length;
