@@ -56,6 +56,11 @@ public class Board {
         int rowChange = endI - startI;
         int colChange = endJ - startJ;
 
+        if ((endI == 0 && startPiece.getType() == PieceType.BLACK) || (endI == board.length-1 && startPiece.getType() == PieceType.WHITE)) {
+            startPiece.setType((startPiece.getType() == PieceType.BLACK) ? PieceType.BLACK_QUEEN : PieceType.WHITE_QUEEN);
+            return true;
+        }
+
 
         if (Math.abs(rowChange) == 2 && Math.abs(colChange) == 2) {
             int killedI = (startI + endI) / 2;
@@ -88,6 +93,10 @@ public class Board {
             return false;
         }
 
+        if (startPiece.getType() == PieceType.BLACK_QUEEN || startPiece.getType() == PieceType.WHITE_QUEEN) {
+            return Math.abs(rowChange) == Math.abs(colChange);
+        }
+
         return true;
     }
 
@@ -108,6 +117,7 @@ public class Board {
         board[endI][endJ] = startPiece;
         startPiece.updatePosition(endI, endJ);
         board[startI][startJ] = new Piece(PieceType.EMPTY, startI, startJ);
+
         isWhite = !isWhite;
     }
 

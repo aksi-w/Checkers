@@ -6,17 +6,22 @@ public class Piece {
     private int row;
     private int col;
 
+
+
     public Piece(PieceType type, int row, int col) {
         this.type = type;
         this.row = row;
         this.col = col;
+
     }
 
     public PieceType getType() {
         return type;
     }
 
-
+    public void setType(PieceType type) {
+        this.type = type;
+    }
 
     public void updatePosition(int newRow, int newCol) {
         this.row = newRow;

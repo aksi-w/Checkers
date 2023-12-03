@@ -3,7 +3,7 @@ package ru.vsu.cs.oop.popova_p_n.tack2;
 import java.util.Scanner;
 
 public class CheckersGame {
-    private Board board;
+    private final Board board;
 
     public CheckersGame(Board board) {
         this.board = board;
@@ -37,8 +37,6 @@ public class CheckersGame {
                 if (Math.abs(endI - startI) == 2) {
                     int killedI = (startI + endI) / 2;
                     int killedJ = (startJ + endJ) / 2;
-
-
                     board.removePiece(killedI, killedJ);
                 }
             } else {

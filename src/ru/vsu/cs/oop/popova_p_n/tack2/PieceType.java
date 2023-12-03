@@ -5,7 +5,8 @@ public enum PieceType {
     EMPTY("."),
     BLACK("B"),
     WHITE("W"),
-    QUEEN("Q");
+    WHITE_QUEEN("WQ"),
+    BLACK_QUEEN("BQ");
 
     private String label;
 
@@ -17,4 +18,5 @@ public enum PieceType {
         this.label = label;
     }
 }
+
 
