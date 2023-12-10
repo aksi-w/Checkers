@@ -11,13 +11,13 @@ import java.util.*;
 public class Game {
     private Cell rightUpCell;
     private Cell leftDownCell;
-    private List<List<Cell>> boardPainting;
+    private List<List<Cell>> boardPaint;
     private Queue<Player> players;
 
-    private final Map<Player, Map<PieceType, String>> visualPiece;
+    private final Map<Player, Map<PieceType, String>> seePiece;
     private Map<Player, List<Piece>> playerPiece;
     private Map<Piece, Player> piecePlayerMap;
-    private Map<Player, List<Direction>> availableDirections;
+    private Map<Player, List<Direction>> avialableDirections;
 
     private Map<Cell, Piece> cellPiece;
     private Map<Piece, Cell> pieceCell;
@@ -25,7 +25,7 @@ public class Game {
 
     private Game() {
         players = new LinkedList<>();
-        visualPiece = new HashMap<>();
+        seePiece = new HashMap<>();
     }
 
     public Cell getRightUpCell() {
@@ -44,16 +44,16 @@ public class Game {
         this.leftDownCell = leftDownCell;
     }
 
-    public List<List<Cell>> getBoardPainting() {
-        return boardPainting;
+    public List<List<Cell>> getBoardPaint() {
+        return boardPaint;
     }
 
-    public void setBoardPainting(List<List<Cell>> boardPainting) {
-        this.boardPainting = boardPainting;
+    public void setBoardPaint(List<List<Cell>> boardPaint) {
+        this.boardPaint = boardPaint;
     }
 
-    public Map<Player, Map<PieceType, String>> getVisualPiece() {
-        return visualPiece;
+    public Map<Player, Map<PieceType, String>> getSeePiece() {
+        return seePiece;
     }
 
     public Map<Player, List<Piece>> getPlayerPiece() {
@@ -72,12 +72,12 @@ public class Game {
         this.playerPiece = playerPiece;
     }
 
-    public Map<Player, List<Direction>> getAvailableDirections() {
-        return availableDirections;
+    public Map<Player, List<Direction>> getAvialableDirections() {
+        return avialableDirections;
     }
 
-    public void setAvailableDirections(Map<Player, List<Direction>> availableDirections) {
-        this.availableDirections = availableDirections;
+    public void setAvialableDirections(Map<Player, List<Direction>> avialableDirections) {
+        this.avialableDirections = avialableDirections;
     }
 
     public Map<Cell, Piece> getCellPiece() {

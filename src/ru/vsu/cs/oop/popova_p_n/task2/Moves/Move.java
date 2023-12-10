@@ -10,24 +10,24 @@ public class Move {
 
     private Cell to;
 
-    private Piece figure;
+    private Piece piece;
 
     private Player player;
 
-    private Piece beatenFigure = null;
+    private Piece beatPiece = null;
 
-    public Move(Cell from, Cell to, Piece figure, Player player) {
+    public Move(Cell from, Cell to, Piece piece, Player player) {
         this.from = from;
         this.to = to;
-        this.figure = figure;
+        this.piece = piece;
         this.player = player;
     }
-    public Move(Cell from, Cell to, Piece figure, Player player, Piece beatenFigure) {
+    public Move(Cell from, Cell to, Piece piece, Player player, Piece beatPiece) {
         this.from = from;
         this.to = to;
-        this.figure = figure;
+        this.piece = piece;
         this.player = player;
-        this.beatenFigure=beatenFigure;
+        this.beatPiece = beatPiece;
     }
 
     public Cell getFrom() {
@@ -38,8 +38,8 @@ public class Move {
         return to;
     }
 
-    public Piece getFigure() {
-        return figure;
+    public Piece getPiece() {
+        return piece;
     }
 
 
@@ -48,8 +48,8 @@ public class Move {
     }
 
 
-    public Piece getBeatenFigure() {
-        return beatenFigure;
+    public Piece getBeatPiece() {
+        return beatPiece;
     }
 
 }
