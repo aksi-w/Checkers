@@ -40,9 +40,6 @@ public class CheckersGame {
         return steps;
     }
 
-    /*
-   Проверка на наличие у шашки возможных ходов
-    */
     public boolean haveAvailableMoves(Piece piece, Game game, Player player) {
         Cell cell = game.getPieceCell().get(piece);
         for (Direction direction : game.getAvialableDirections().get(player)) {
@@ -53,9 +50,6 @@ public class CheckersGame {
         return false;
     }
 
-    /*
-    Может ли шашка побить фигуру противника, если да, то возвращаем направление
-     */
     public Direction beat(Piece piece, Player player, Game game) {
         Cell cell = game.getPieceCell().get(piece);
         for (Direction direction : cell.getNeighbours().keySet()) {
@@ -76,9 +70,6 @@ public class CheckersGame {
                 game.getCellPiece().get(cell.getNeighbours().get(direction)));
     }
 
-    /*
-    Получение обязательных ходов для шашки
-     */
     public List<Move> getSteps(Game game, Player player) {
         List<Piece> pieces = piece.listNecessarySteps(game, player, PieceType.PAWN);
         List<Move> necessarySteps = new ArrayList<>();

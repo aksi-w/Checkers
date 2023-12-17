@@ -8,14 +8,13 @@ import java.util.*;
 
 public class Board {
     private static final int BOARD_SIZE = 8;
-    private static final int MAX_CELLS_IN_LINE = 4;
 
     public Cell createBoard(Cell rightUp) {
         List<Cell> centerCells = new ArrayList<>();
         centerCells.add(rightUp);
         Cell prev = rightUp;
 
-        for (int i = 1; i < 8; i++) {
+        for (int i = 1; i < BOARD_SIZE; i++) {
             Cell curr = new Cell();
             prev.getNeighbours().put(Direction.LEFT_DOWN, curr);
             curr.getNeighbours().put(Direction.RIGHT_UP, prev);
@@ -67,30 +66,30 @@ public class Board {
     public static void initializeBoard(Game game) {
         List<List<Cell>> board = game.getBoardPaint();
         for (int i = 0; i < 8; i++) {
-
             if (i % 2 == 0) {
                 for (int j = 0; j < 4; j++) {
-                    System.out.print("       ");
+                    System.out.print("    ┏–––┓ ");
                 }
                 System.out.println();
                 for (int j = 0; j < 4; j++) {
-                    System.out.print("      ");
+                    System.out.print("     ");
                     Cell currentPaintingCell = board.get(i).get(j);
                     Piece piece = game.getCellPiece().get(currentPaintingCell);
                     if (piece != null) {
                         Player owner = game.getPiecePlayerMap().get(piece);
-                        System.out.print(game.getSeePiece().get(owner).get(piece.getType()) + " ");
+                        System.out.print(game.getSeePiece().get(owner).get(piece.getType()) + "  ");
                     } else {
-                        System.out.print("    ");
+                        System.out.print("      ");
                     }
                 }
                 System.out.println();
                 for (int j = 0; j < 4; j++) {
-                    System.out.print("       ");
+                    System.out.print("    ┗╺╺╺┛ ");
                 }
+                System.out.println();
             } else {
                 for (int j = 0; j < 4; j++) {
-                    System.out.print("       ");
+                    System.out.print("┏–––┓    ");
                 }
                 System.out.println();
                 for (int j = 0; j < 4; j++) {
@@ -105,12 +104,10 @@ public class Board {
                 }
                 System.out.println();
                 for (int j = 0; j < 4; j++) {
-                    System.out.print("       ");
+                    System.out.print("┗╺╺╺┛    ");
                 }
+                System.out.println();
             }
-            System.out.println();
-
-
         }
         System.out.println("----------------------------------------------------------------");
     }

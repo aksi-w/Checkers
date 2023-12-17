@@ -38,7 +38,7 @@ public class Games {
 
     private Player doMove(Game game) {
         Player player = game.getPlayers().poll();
-        System.out.println(player != null ? player.getName() : null + "ход");
+        System.out.println((player != null ? player.getName() : null) + " ход");
         if (!playerService.doMove(player, game)) {
             return game.getPlayers().peek();
         }
@@ -57,55 +57,55 @@ public class Games {
         playerQueue.offer(one);
         playerQueue.offer(two);
         game.setPlayers(playerQueue);
-        List<Piece> figureForPlayerOne = new ArrayList<>();
-        List<Piece> figureForPlayerTwo = new ArrayList<>();
-        Map<Cell, Piece> cellFigureMap = new HashMap<>();
-        Map<Piece, Cell> figureCellMap = new HashMap<>();
+        List<Piece> pieceForPlayerOne = new ArrayList<>();
+        List<Piece> pieceForPlayerTwo = new ArrayList<>();
+        Map<Cell, Piece> cellPieceMap = new HashMap<>();
+        Map<Piece, Cell> pieceCellMap = new HashMap<>();
         Map<Player, List<Piece>> playerSetMap = new HashMap<>();
-        Map<Piece, Player> figurePlayerMap = new HashMap<>();
+        Map<Piece, Player> piecePlayerMap = new HashMap<>();
         Map<Player, List<Direction>> availableDirection = new HashMap<>();
 
-        setFiguresForPlayer(game.getRightUpCell(), one, figureForPlayerOne, cellFigureMap, figureCellMap, figurePlayerMap,
+        setPiecesForPlayer(game.getRightUpCell(), one, pieceForPlayerOne, cellPieceMap, pieceCellMap, piecePlayerMap,
                 Direction.LEFT_DOWN, Direction.LEFT_UP, Direction.RIGHT_UP, Direction.RIGHT_DOWN);
         availableDirection.put(one, List.of(Direction.RIGHT_DOWN, Direction.LEFT_DOWN));
-        setFiguresForPlayer(game.getLeftDownCell(), two, figureForPlayerTwo, cellFigureMap, figureCellMap, figurePlayerMap,
+        setPiecesForPlayer(game.getLeftDownCell(), two, pieceForPlayerTwo, cellPieceMap, pieceCellMap, piecePlayerMap,
                 Direction.RIGHT_UP, Direction.RIGHT_DOWN, Direction.LEFT_DOWN, Direction.LEFT_UP);
         availableDirection.put(two, List.of(Direction.RIGHT_UP, Direction.LEFT_UP));
 
         Map<PieceType, String> forOne = new HashMap<>();
-        forOne.put(PieceType.PAWN, "W ");
-        forOne.put(PieceType.QUEEN, "QW ");
+        forOne.put(PieceType.PAWN, " W");
+        forOne.put(PieceType.QUEEN, " QW");
         Map<PieceType, String> forTwo = new HashMap<>();
-        forTwo.put(PieceType.PAWN, "B ");
-        forTwo.put(PieceType.QUEEN, "QB ");
+        forTwo.put(PieceType.PAWN, " B");
+        forTwo.put(PieceType.QUEEN, " QB");
         game.getSeePiece().put(one, forOne);
         game.getSeePiece().put(two, forTwo);
-        game.setCellPiece(cellFigureMap);
-        game.setPieceCell(figureCellMap);
-        playerSetMap.put(one, figureForPlayerOne);
-        playerSetMap.put(two, figureForPlayerTwo);
+        game.setCellPiece(cellPieceMap);
+        game.setPieceCell(pieceCellMap);
+        playerSetMap.put(one, pieceForPlayerOne);
+        playerSetMap.put(two, pieceForPlayerTwo);
         game.setPlayerPiece(playerSetMap);
-        game.setPiecePlayerMap(figurePlayerMap);
+        game.setPiecePlayerMap(piecePlayerMap);
         game.setAvialableDirections(availableDirection);
     }
 
-    private void setFiguresForPlayer(Cell curr,
-                                     Player player,
-                                     List<Piece> figureForPlayer,
-                                     Map<Cell, Piece> cellFigureMap,
-                                     Map<Piece, Cell> figureCellMap,
-                                     Map<Piece, Player> figurePlayerMap,
-                                     Direction firstDirectionForFirstIteration,
-                                     Direction secondDirectionForFirstIteration,
-                                     Direction firstDirectionForSecondIteration,
-                                     Direction secondDirectionForSecondIteration) {
+    private void setPiecesForPlayer(Cell curr,
+                                    Player player,
+                                    List<Piece> piecesForPlayer,
+                                    Map<Cell, Piece> cellPieceMap,
+                                    Map<Piece, Cell> pieceCellMap,
+                                    Map<Piece, Player> piecePlayerMap,
+                                    Direction firstDirectionForFirstIteration,
+                                    Direction secondDirectionForFirstIteration,
+                                    Direction firstDirectionForSecondIteration,
+                                    Direction secondDirectionForSecondIteration) {
         while (curr.getNeighbours().containsKey(firstDirectionForFirstIteration) ||
                 curr.getNeighbours().containsKey(secondDirectionForFirstIteration)) {
-            Piece figure = new Piece(PieceType.PAWN);
-            figureForPlayer.add(figure);
-            cellFigureMap.put(curr, figure);
-            figureCellMap.put(figure, curr);
-            figurePlayerMap.put(figure, player);
+            Piece piece = new Piece(PieceType.PAWN);
+            piecesForPlayer.add(piece);
+            cellPieceMap.put(curr, piece);
+            pieceCellMap.put(piece, curr);
+            piecePlayerMap.put(piece, player);
             if (curr.getNeighbours().containsKey(secondDirectionForFirstIteration)) {
                 curr = curr.getNeighbours().get(secondDirectionForFirstIteration);
             } else if (curr.getNeighbours().containsKey(firstDirectionForFirstIteration)) {
@@ -114,11 +114,11 @@ public class Games {
                 break;
             }
         }
-        Piece figure = new Piece(PieceType.PAWN);
-        figureForPlayer.add(figure);
-        cellFigureMap.put(curr, figure);
-        figureCellMap.put(figure, curr);
-        figurePlayerMap.put(figure, player);
+        Piece piece = new Piece(PieceType.PAWN);
+        piecesForPlayer.add(piece);
+        cellPieceMap.put(curr, piece);
+        pieceCellMap.put(piece, curr);
+        piecePlayerMap.put(piece, player);
         boolean isCellAvailable = true;
         while (curr.getNeighbours().containsKey(firstDirectionForSecondIteration)
                 || curr.getNeighbours().containsKey(secondDirectionForSecondIteration)) {
@@ -128,11 +128,11 @@ public class Games {
             } else {
                 if (curr.getNeighbours().containsKey(secondDirectionForSecondIteration)) {
                     curr = curr.getNeighbours().get(secondDirectionForSecondIteration);
-                    Piece figure1 = new Piece(PieceType.PAWN);
-                    figureForPlayer.add(figure1);
-                    cellFigureMap.put(curr, figure1);
-                    figureCellMap.put(figure1, curr);
-                    figurePlayerMap.put(figure1, player);
+                    Piece piece1 = new Piece(PieceType.PAWN);
+                    piecesForPlayer.add(piece1);
+                    cellPieceMap.put(curr, piece1);
+                    pieceCellMap.put(piece1, curr);
+                    piecePlayerMap.put(piece1, player);
                     isCellAvailable = false;
                 } else {
                     break;
