@@ -2,26 +2,30 @@ package ru.vsu.cs.oop.popova_p_n.task2.Players;
 
 import ru.vsu.cs.oop.popova_p_n.task2.Game.Game;
 import ru.vsu.cs.oop.popova_p_n.task2.Moves.Move;
+import ru.vsu.cs.oop.popova_p_n.task2.Moves.MoveHistory;
 import ru.vsu.cs.oop.popova_p_n.task2.Piece.PieceLogic;
 
 import java.util.List;
 
 public class Bot {
     private final PieceLogic piece = new PieceLogic();
+    private final MoveHistory moveHistory;
 
-    public boolean doMove(Player player, Game game) {
+    public Bot(MoveHistory moveHistory) {
+        this.moveHistory = moveHistory;
+    }
+
+    public boolean makeMove(Player player, Game game) {
         boolean beat = false;
         List<Move> steps = piece.necessarySteps(game, player);
         if (!steps.isEmpty()) {
             Move step = steps.get((int) (Math.random() * (steps.size() - 1)));
             beat = true;
             doStep(step, game, beat);
-            sleep();
             steps = piece.necessarySteps(game, player);
             while (!steps.isEmpty()) {
                 step = steps.get((int) (Math.random() * (steps.size() - 1)));
                 doStep(step, game, beat);
-                sleep();
                 steps = piece.necessarySteps(game, player);
             }
         } else {
@@ -32,7 +36,6 @@ public class Bot {
             }
             Move step = availableSteps.get((int) (Math.random() * (availableSteps.size() - 1)));
             doStep(step, game, beat);
-            sleep();
         }
         return true;
     }
@@ -46,6 +49,8 @@ public class Bot {
         }
         if (beat) {
             beat(step, game);
+            // Добавляем ход в стек
+            moveHistory.addMove(step);
         }
     }
 
@@ -55,13 +60,7 @@ public class Bot {
         game.getPlayerPiece().get(game.getPiecePlayerMap().get(step.getBeatPiece())).remove(step.getBeatPiece());
         game.getPiecePlayerMap().remove(step.getBeatPiece());
     }
-
-    private void sleep() {
-        try {
-
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public MoveHistory getMoveHistory() {
+        return moveHistory;
     }
 }

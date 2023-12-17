@@ -29,7 +29,7 @@ public class PieceLogic {
         piece.setType(PieceType.QUEEN);
     }
 
-    protected boolean haveAvailableMoves(Piece piece, Game game, Player player) {
+    private boolean haveAvailableMoves(Piece piece, Game game, Player player) {
         if (piece.getType() == PieceType.QUEEN) {
             return queen.haveAvailableMoves(piece, game);
         } else {

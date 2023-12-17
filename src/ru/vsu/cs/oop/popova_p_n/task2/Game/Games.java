@@ -3,6 +3,8 @@ package ru.vsu.cs.oop.popova_p_n.task2.Game;
 import ru.vsu.cs.oop.popova_p_n.task2.Boards.Board;
 import ru.vsu.cs.oop.popova_p_n.task2.Boards.Cell;
 import ru.vsu.cs.oop.popova_p_n.task2.Boards.Direction;
+import ru.vsu.cs.oop.popova_p_n.task2.Moves.Move;
+import ru.vsu.cs.oop.popova_p_n.task2.Moves.MoveHistory;
 import ru.vsu.cs.oop.popova_p_n.task2.Piece.Piece;
 import ru.vsu.cs.oop.popova_p_n.task2.Piece.PieceType;
 import ru.vsu.cs.oop.popova_p_n.task2.Players.Bot;
@@ -12,7 +14,8 @@ import java.util.*;
 
 public class Games {
     private final static Board boardService = new Board();
-    private final static Bot playerService = new Bot();
+    private final static Bot playerService = new Bot(new MoveHistory());
+    private final MoveHistory moveHistory = new MoveHistory();
 
     public void startGame(Game game, List<Player> players) {
         Cell rightUp = new Cell();
@@ -22,7 +25,7 @@ public class Games {
         setCheckers(players, game);
         game.setBoardPaint(boardService.getBoardForPainting(game));
         Board.initializeBoard(game);
-        processGame(game);
+
     }
 
     private void processGame(Game game) {
@@ -36,10 +39,30 @@ public class Games {
         }
     }
 
-    public Player doMove(Game game) {
+    public boolean move(Game game) {
+        Player player = game.getPlayers().peek();
+        boolean moveResult = playerService.makeMove(player, game);
+        if (moveResult) {
+            Move currentMove = playerService.getMoveHistory().getLastMove();
+            if (currentMove != null) {
+                moveHistory.addMove(currentMove);
+            }
+        }
+        return moveResult;
+    }
+
+    public void nextStep(Game game) {
+        Player player = doMove(game);
+        Board.initializeBoard(game);
+        if (player != null) {
+            System.out.println(player.getName() + " Победитель");
+        }
+    }
+
+    private Player doMove(Game game) {
         Player player = game.getPlayers().poll();
-        System.out.println((player != null ? player.getName() : null) + " ход");
-        if (!playerService.doMove(player, game)) {
+        System.out.println("Время хода игрока " + player.getName());
+        if (!playerService.makeMove(player, game)) {
             return game.getPlayers().peek();
         }
         if (game.getPlayerPiece().get(game.getPlayers().peek()).isEmpty()) {
@@ -73,11 +96,11 @@ public class Games {
         availableDirection.put(two, List.of(Direction.RIGHT_UP, Direction.LEFT_UP));
 
         Map<PieceType, String> forOne = new HashMap<>();
-        forOne.put(PieceType.PAWN, " W");
-        forOne.put(PieceType.QUEEN, " QW");
+        forOne.put(PieceType.PAWN, " W ");
+        forOne.put(PieceType.QUEEN, " QW ");
         Map<PieceType, String> forTwo = new HashMap<>();
-        forTwo.put(PieceType.PAWN, " B");
-        forTwo.put(PieceType.QUEEN, " QB");
+        forTwo.put(PieceType.PAWN, " B ");
+        forTwo.put(PieceType.QUEEN, " QB ");
         game.getSeePiece().put(one, forOne);
         game.getSeePiece().put(two, forTwo);
         game.setCellPiece(cellPieceMap);

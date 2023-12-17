@@ -5,6 +5,7 @@ import java.util.Stack;
 public class MoveHistory {
     private final Stack<Move> moveStack;
 
+
     public MoveHistory() {
         this.moveStack = new Stack<>();
     }
@@ -20,4 +21,10 @@ public class MoveHistory {
         return null;
     }
 
+    public Move getLastMove() {
+        if (!moveStack.isEmpty()) {
+            return moveStack.peek();
+        }
+        return null;
+    }
 }

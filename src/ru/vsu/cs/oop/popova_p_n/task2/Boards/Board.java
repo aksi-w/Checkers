@@ -109,7 +109,7 @@ public class Board {
                 System.out.println();
             }
         }
-        System.out.println("LALALALALALALALALALALALALALALALALALALALALALALA");
+        System.out.println("-------------------------------------------------------------------");
     }
 
     public List<List<Cell>> getBoardForPainting(Game game) {
