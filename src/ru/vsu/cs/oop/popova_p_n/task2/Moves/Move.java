@@ -52,4 +52,5 @@ public class Move {
         return beatPiece;
     }
 
+
 }

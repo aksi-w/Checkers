@@ -36,7 +36,7 @@ public class Games {
         }
     }
 
-    private Player doMove(Game game) {
+    public Player doMove(Game game) {
         Player player = game.getPlayers().poll();
         System.out.println((player != null ? player.getName() : null) + " ход");
         if (!playerService.doMove(player, game)) {
