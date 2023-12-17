@@ -29,9 +29,6 @@ public class PieceLogic {
         piece.setType(PieceType.QUEEN);
     }
 
-    /*
-    Проверка на наличие у фигуры ходов, в зависимости от типа фигуры, разные проверки
-     */
     protected boolean haveAvailableMoves(Piece piece, Game game, Player player) {
         if (piece.getType() == PieceType.QUEEN) {
             return queen.haveAvailableMoves(piece, game);
@@ -40,9 +37,7 @@ public class PieceLogic {
         }
     }
 
-    /*
-    Получение абсолютно всех обязательных ходов
-     */
+
     public List<Move> necessarySteps(Game game, Player player) {
         List<Move> necessarySteps = new ArrayList<>();
         necessarySteps.addAll(queen.getNecessarySteps(game, player));
@@ -50,9 +45,6 @@ public class PieceLogic {
         return necessarySteps;
     }
 
-    /*
-        Получение абсолютно всех возможных ходов
-     */
     public List<Move> availableSteps(Game game, Player player) {
         List<Move> availableStep = new ArrayList<>();
         availableStep.addAll(checkers.getAvailableSteps(game, player));
@@ -60,9 +52,6 @@ public class PieceLogic {
         return availableStep;
     }
 
-    /*
-    доступные для хода фигуры
-     */
     public List<Piece> availablePiece(Game game, Player player, PieceType pieceType) {
         List<Piece> pieceColor = game.getPlayerPiece().get(player);
         List<Piece> result = new ArrayList<>();
@@ -91,9 +80,6 @@ public class PieceLogic {
     }
 
 
-    /*
-    Проверка наличия соседней клетки по заданному направлению и отсутствия на ней фигуры
-     */
     public boolean checkNeighbourCell(Game game, Direction direction, Cell cell) {
         return cell.getNeighbours().containsKey(direction) &&
                 !game.getCellPiece().containsKey(cell.getNeighbours().get(direction));

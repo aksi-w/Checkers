@@ -7,6 +7,8 @@ import ru.vsu.cs.oop.popova_p_n.task2.Players.Player;
 import java.util.*;
 
 public class Board  {
+    private static final int BOARD_SIZE = 8;
+    private static final int MAX_CELLS_IN_LINE = 4;
     public Cell createBoard(Cell rightUp) {
         List<Cell> centerCells = new ArrayList<>();
         centerCells.add(rightUp);
@@ -48,7 +50,7 @@ public class Board  {
             createDiag(currentFirst, currentSecond, Direction.LEFT_UP);
         }
 
-        return centerCells.get(7);
+        return centerCells.get(BOARD_SIZE - 1);
     }
 
     private void createDiag(Cell currentFirst, Cell currentSecond, Direction direction) {
@@ -61,16 +63,17 @@ public class Board  {
         }
     }
 
-    public static void drawBoard2(Game game) {
+    public static void initializeBoard(Game game) {
         List<List<Cell>> board = game.getBoardPaint();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 4; j++) {
-                Cell currentPaintingCell = board.get(i).get(j);
-                Piece f = game.getCellPiece().get(currentPaintingCell);
 
-                if (f != null) {
-                    Player owner = game.getPiecePlayerMap().get(f);
-                    System.out.print(" " + game.getSeePiece().get(owner).get(f.getType()) + " ");
+        for (List<Cell> line : board) {
+            for (int j = 0; j < MAX_CELLS_IN_LINE; j++) {
+                Cell currentPaintingCell = line.get(j);
+                Piece piece = game.getCellPiece().get(currentPaintingCell);
+
+                if (piece != null) {
+                    Player owner = game.getPiecePlayerMap().get(piece);
+                    System.out.print(" " + game.getSeePiece().get(owner).get(piece.getType()) + " ");
                 } else {
                     System.out.print(" . ");
                 }

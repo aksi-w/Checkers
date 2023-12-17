@@ -17,9 +17,6 @@ public class Queen {
         this.pieceLogic = pieceLogic;
     }
 
-    /*
-    Возможные ходы для дамок
-     */
     public List<Move> availableSteps(Game game, Player player) {
         List<Piece> availablePieces = pieceLogic.availablePiece(game, player, PieceType.QUEEN);
 
@@ -44,10 +41,6 @@ public class Queen {
         return steps;
     }
 
-
-    /*
-    проверка на наличие у дамки ходов, по которым она может сходить
-     */
     protected boolean haveAvailableMoves(Piece piece, Game game) {
         Cell cell = game.getPieceCell().get(piece);
         for (Direction direction : Direction.values()) {
@@ -58,9 +51,6 @@ public class Queen {
         return false;
     }
 
-    /*
-    может ли дамка побить какую-то фигуру
-     */
     protected Direction beat(Piece piece, Player player, Game game) {
         Cell cell = game.getPieceCell().get(piece);
 
@@ -84,10 +74,6 @@ public class Queen {
         return null;
     }
 
-
-    /*
-    ходы, которые можно сделать, побив фигуру противника
-     */
     private List<Move> stepBeat(Piece piece, Player player, Game game, Direction direction) {
         List<Move> steps = new ArrayList<>();
         Cell from = game.getPieceCell().get(piece);
@@ -105,9 +91,6 @@ public class Queen {
         return steps;
     }
 
-    /*
-    Обязательные ходы для дамки
-     */
     public List<Move> getNecessarySteps(Game game, Player player) {
         List<Piece> pieces = pieceLogic.listNecessarySteps(game, player, PieceType.QUEEN);
         List<Move> necessarySteps = new ArrayList<>();
