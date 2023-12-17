@@ -6,9 +6,10 @@ import ru.vsu.cs.oop.popova_p_n.task2.Players.Player;
 
 import java.util.*;
 
-public class Board  {
+public class Board {
     private static final int BOARD_SIZE = 8;
     private static final int MAX_CELLS_IN_LINE = 4;
+
     public Cell createBoard(Cell rightUp) {
         List<Cell> centerCells = new ArrayList<>();
         centerCells.add(rightUp);
@@ -65,23 +66,54 @@ public class Board  {
 
     public static void initializeBoard(Game game) {
         List<List<Cell>> board = game.getBoardPaint();
+        for (int i = 0; i < 8; i++) {
 
-        for (List<Cell> line : board) {
-            for (int j = 0; j < MAX_CELLS_IN_LINE; j++) {
-                Cell currentPaintingCell = line.get(j);
-                Piece piece = game.getCellPiece().get(currentPaintingCell);
-
-                if (piece != null) {
-                    Player owner = game.getPiecePlayerMap().get(piece);
-                    System.out.print(" " + game.getSeePiece().get(owner).get(piece.getType()) + " ");
-                } else {
-                    System.out.print(" . ");
+            if (i % 2 == 0) {
+                for (int j = 0; j < 4; j++) {
+                    System.out.print("       ");
+                }
+                System.out.println();
+                for (int j = 0; j < 4; j++) {
+                    System.out.print("      ");
+                    Cell currentPaintingCell = board.get(i).get(j);
+                    Piece piece = game.getCellPiece().get(currentPaintingCell);
+                    if (piece != null) {
+                        Player owner = game.getPiecePlayerMap().get(piece);
+                        System.out.print(game.getSeePiece().get(owner).get(piece.getType()) + " ");
+                    } else {
+                        System.out.print("    ");
+                    }
+                }
+                System.out.println();
+                for (int j = 0; j < 4; j++) {
+                    System.out.print("       ");
+                }
+            } else {
+                for (int j = 0; j < 4; j++) {
+                    System.out.print("       ");
+                }
+                System.out.println();
+                for (int j = 0; j < 4; j++) {
+                    Cell currentPaintingCell = board.get(i).get(j);
+                    Piece piece = game.getCellPiece().get(currentPaintingCell);
+                    if (piece != null) {
+                        Player owner = game.getPiecePlayerMap().get(piece);
+                        System.out.print(game.getSeePiece().get(owner).get(piece.getType()) + "       ");
+                    } else {
+                        System.out.print("       ");
+                    }
+                }
+                System.out.println();
+                for (int j = 0; j < 4; j++) {
+                    System.out.print("       ");
                 }
             }
             System.out.println();
-        }
-    }
 
+
+        }
+        System.out.println("----------------------------------------------------------------");
+    }
 
     public List<List<Cell>> getBoardForPainting(Game game) {
         Cell curr = game.getRightUpCell();
@@ -121,7 +153,6 @@ public class Board  {
                 }
             }
             board.add(lineListOfCells);
-
         }
         return board;
     }
