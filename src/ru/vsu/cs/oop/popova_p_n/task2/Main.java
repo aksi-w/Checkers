@@ -16,15 +16,16 @@ public class Main {
         players.add(new Player("Игрок за белых"));
         players.add(new Player("Игрок за черных"));
         gameService.startGame(game, players);
-
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            for (Player player : players) {
-                gameService.doMove(game);
-                scanner.nextLine();
-
-            }
-        }
+//
+//        Scanner scanner = new Scanner(System.in);
+//
+//        while (true) {
+//            for (Player player : players) {
+//                gameService.doMove(game);
+//
+//                scanner.nextLine();
+//
+//            }
+//        }
     }
 }
